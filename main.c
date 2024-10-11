@@ -6,6 +6,30 @@
 char horarios[maxhorario][20] = {"8:00", "10:00", "12:00", "14:00", "16:00"};
 int disponivel[maxhorario] = {1, 1, 1, 1, 1}; //1 disponivel, 0 indisponivel
 
+void consultaragenda( char *cpf) {
+    FILE *BD = fopen("usuario.txt", "r");
+    char linha[100];
+    int encontrou = 0;
+
+    if (BD == NULL) {
+        printf("Erro ao abrir o arquivo de agendamentos.\n");
+        return;
+    }
+
+    printf("\nAgendamentos para o CPF %s:\n", cpf);
+
+    while (fgets(linha, sizeof(linha), BD) != NULL) {
+        if (strstr(linha, cpf) != NULL) {
+            printf("%s", linha);
+            encontrou = 1;
+        }
+    }
+    fclose(BD);
+
+    if(!encontrou) {
+        printf("Nenhum agendamento encontrado.\n");
+    }
+}
 
 void carregarhorario() {
     FILE *BD = fopen("horarios.txt", "r");
@@ -99,44 +123,56 @@ void escolhermodelo() {
 void menuPrincipal(char *cpf) {
     int opcao;
     
-  printf("\n");
-  printf("Qual o problema do seu celular? \n");
-  printf("\n");
-  printf("1. Vidro Frontal Quebrado.\n");
-  printf("2. Vidro Traseiro Quebrado.\n");
-  printf("3. Problema com a Bateria.\n");
-  printf("4. Câmera Quebrada. \n");
-  printf("5. Placa Queimada.\n");
-  printf("6. Outro\n");
+    printf("\n");
+    printf("Bem-vindo ao Menu Principal.\n");
+    printf("1. Reportar problema no seu iPhone.\n");
+    printf("2. Consultar meus Agendamentos.\n");
+    printf("Escolha uma opção: ");
+    scanf("%d", &opcao);
 
-  printf("Escolha uma opção: ");
-  scanf("%d", &opcao);
+    switch(opcao) {
+        case 1:
+            printf("\nQual problema com seu iPhone?\n");
+            printf("1. Vidro Frontal Quebrado.\n");
+            printf("2. Vidro Traseiro Quebrado.\n");
+            printf("3. Problema com a Bateria.\n");
+            printf("4. Câmera Quebrada. \n");
+            printf("5. Placa Queimada.\n");
 
-  switch(opcao) {
-    case 1:
-      printf("Problema selecionado: Vidro Frontal Quebrado.\n");
-      break;
-    case 2:
-      printf("Problema selecionado: Vidro Traseiro Quebrado.\n");
-      break;
-    case 3:
-      printf("Problema selecionado: Problema com a Bateria.\n");
-      break;
-    case 4:
-      printf("Problema selecionado: Câmera Quebrada.\n");
-      break;
-    case 5:
-      printf("Problema selecionado: Placa Queimada.\n");
-      break;
-    case 6:
-      printf("Problema selecionado: Outro.\n");
-      break;
-    default:
-      printf("Opção inválida.\n");
-      return;
-  }
-  escolhermodelo();
-  escolherhorario(cpf);
+            printf("Escolha uma opção: ");
+            scanf("%d", &opcao);
+
+            switch(opcao) {
+                case 1:
+                    printf("Problema selecionado: Vidro Frontal Quebrado.\n");
+                    break;
+                case 2:
+                    printf("Problema selecionado: Vidro Traseiro Quebrado.\n");
+                    break;
+                case 3:
+                    printf("Problema selecionado: Problema com a Bateria.\n");
+                    break;
+                case 4:
+                    printf("Problema selecionado: Câmera Quebrada.\n");
+                    break;
+                case 5:
+                    printf("Problema selecionado: Placa Queimada.\n");
+                    break;
+                default:
+                    printf("Opção inválida.\n");
+                    return;
+            }
+          
+            escolhermodelo();
+            escolherhorario(cpf);
+            break;
+
+        case 2:
+            consultaragenda(cpf);
+            break;
+        default:
+            printf("Opção inválida.\n");
+    }  
 }
 
 void cadastrarUsuario() {
