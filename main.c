@@ -8,15 +8,31 @@ int disponivel[maxhorario] = {1, 1, 1, 1, 1};
 
 void consultaragenda(char *cpf) {
     FILE *BD = fopen("usuario.txt", "r");
+    if (BD == NULL) {
+        printf("Erro ao abrir o arquivo de usuários!\n");
+        return;
+    }
+
     char linha[100];
     int encontrou = 0;
 
+    printf("Agendamentos para o CPF %s:\n", cpf);
+
     while (fgets(linha, sizeof(linha), BD) != NULL) {
         if (strstr(linha, cpf) != NULL) {
-            printf("%s", linha);
-            encontrou = 1;
+            // Exibe apenas o horário, sem mostrar CPF ou senha
+            char *horario = strstr(linha, ", Horário: ");
+            if (horario != NULL) {
+                printf("%s", horario + 11);  // Pula o texto "CPF: " e exibe apenas o horário
+                encontrou = 1;
+            }
         }
     }
+
+    if (!encontrou) {
+        printf("Nenhum agendamento encontrado para o CPF %s.\n", cpf);
+    }
+
     fclose(BD);
 }
 
