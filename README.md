@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content= "width=device-width, initial-scale=1.0">
-  <title>iTEC Assistência Técnica</title>
 </head>
 <body>
   <h1>Bem-vindo à iTEC Assistência Técnica</h1>
