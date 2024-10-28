@@ -6,17 +6,101 @@
 char horarios[maxhorario][20] = {"8:00", "10:00", "12:00", "14:00", "16:00"};
 int disponivel[maxhorario] = {1, 1, 1, 1, 1};
 
-void consultaragenda(char *cpf) {
+void salvarhorario() {
+    FILE *BD = fopen("horarios.txt", "w");
+    if (BD != NULL) {
+        for (int i = 0; i < maxhorario; i++) {
+            fprintf(BD, "%d\n", disponivel[i]);
+        }
+        fclose(BD);
+    }
+}
+
+void cancelaragenda(char *cpf) {
     FILE *BD = fopen("usuario.txt", "r");
+    if (BD == NULL) {
+        printf("Erro ao abrir o arquivo de usuário.\n");
+        return;
+    }
+    FILE *temp = fopen("temp.txt", "w");
+    if (temp == NULL) {
+        printf("Erro ao criar arquivo temporário.\n");
+        fclose(BD);
+        return;
+    }
     char linha[100];
     int encontrou = 0;
 
+    printf("Agendamentos para o CPF %s:\n", cpf);
     while (fgets(linha, sizeof(linha), BD) != NULL) {
         if (strstr(linha, cpf) != NULL) {
-            printf("%s", linha);
-            encontrou = 1;
+
+            char *horario = strstr(linha, ", Horário: ");
+            if(horario != NULL) {
+                printf("%s", horario + 11);
+                encontrou = 1;
+            }
+        } else {
+            fprintf(temp, "%s", linha);
         }
     }
+
+    if (!encontrou) {
+        printf("Nenhum agendamento encontrado para o CPF %s.\n", cpf);
+    } else {
+        printf("\nDigite o horário que deseja cancelar: ");
+        char horariocancel[20];
+        scanf("%s", horariocancel);
+
+        rewind(BD);
+        while (fgets(linha, sizeof(linha), BD) != NULL) {
+            if (strstr(linha, horariocancel) == NULL) {
+                fprintf(temp, "%s", linha);
+            } else {
+                printf("Agendamento para %s cancelado com sucesso!\n", horariocancel);
+
+                for (int i = 0; i < maxhorario; i++) {
+                    if (strcmp(horarios[i], horariocancel) == 0) {
+                        disponivel[i] = 1;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    fclose(BD);
+    fclose(temp);
+    remove("usuario.txt");
+    rename("temp.txt", "usuario.txt");
+    salvarhorario();
+}
+
+void consultaragenda(char *cpf) {
+    FILE *BD = fopen("usuario.txt", "r");
+    if (BD == NULL) {
+        printf("Erro ao abrir o arquivo de usuários!\n");
+        return;
+    }
+
+    char linha[100];
+    int encontrou = 0;
+
+    printf("Agendamentos para o CPF %s:\n", cpf);
+
+    while (fgets(linha, sizeof(linha), BD) != NULL) {
+        if (strstr(linha, cpf) != NULL) {
+            char *horario = strstr(linha, ", Horário: ");
+            if (horario != NULL) {
+                printf("%s", horario + 11);
+                encontrou = 1;
+            }
+        }
+    }
+
+    if (!encontrou) {
+        printf("Nenhum agendamento encontrado para o CPF %s.\n", cpf);
+    }
+
     fclose(BD);
 }
 
@@ -30,15 +114,6 @@ void carregarhorario() {
     }
 }
 
-void salvarhorario() {
-    FILE *BD = fopen("horarios.txt", "w");
-    if (BD != NULL) {
-        for (int i = 0; i < maxhorario; i++) {
-            fprintf(BD, "%d\n", disponivel[i]);
-        }
-        fclose(BD);
-    }
-}
 
 void escolherhorario(char *cpf) {
     int opcao;
@@ -154,7 +229,8 @@ void menuPrincipal(char *cpf) {
         printf("----------------------------------------\n");
         printf("1. Reportar problema no meu iPhone.\n");
         printf("2. Consultar meus Agendamentos.\n");
-        printf("3. Sair.\n");
+        printf("3. Cancelar Agendamentos.\n");
+        printf("4. Sair.\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
 
@@ -176,9 +252,13 @@ void menuPrincipal(char *cpf) {
                 break;
 
             case 3:
-                sair = 1;
-                printf("Saindo do sistema...\n");
+                cancelaragenda(cpf);
                 break;
+
+            case 4:
+            sair = 1;
+            printf("Saindo do sistema...\n");
+            break;
 
             default:
                 printf("Opção inválida.\n");
