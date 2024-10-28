@@ -1,4 +1,14 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content= "width=device-width, initial-scale=1.0">
+</head>
+<body>
+=======
 
+>>>>>>> main
   <h1>Bem-vindo à iTEC Assistência Técnica</h1>
 
   <h2>Sobre o Sistema</h2>
@@ -7,6 +17,15 @@
   <h2>Funcionalidades</h2>
   <li>Cadastrar Usuários</li>
   <li>Efetuar Login</li>
+<<<<<<< HEAD
+  <li>Agendar Serviços</li>
+  <li>Consultar Agendamentos</li>
+  <li>Cancelar Agendamentos</li>
+
+
+  
+</html>
+=======
   <li>Reportar Problema</li>
   <li>Agendar Serviço</li>
   <li>Consultar Agendamentos</li>
@@ -39,3 +58,4 @@
   <h2>Criadores</h2>
   <li>Lucas de Almeida Brandão - RA: 22.124.066-6</li>
   <li>João Pedro Martins - RA: 22.124.034-4</li>
+>>>>>>> main

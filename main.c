@@ -6,6 +6,7 @@
 char horarios[maxhorario][20] = {"8:00", "10:00", "12:00", "14:00", "16:00"};
 int disponivel[maxhorario] = {1, 1, 1, 1, 1};
 
+//Salvar horário
 void salvarhorario() {
     FILE *BD = fopen("horarios.txt", "w");
     if (BD != NULL) {
@@ -16,6 +17,7 @@ void salvarhorario() {
     }
 }
 
+//Cancelar agendamento
 void cancelaragenda(char *cpf) {
     FILE *BD = fopen("usuario.txt", "r");
     if (BD == NULL) {
@@ -48,7 +50,7 @@ void cancelaragenda(char *cpf) {
     if (!encontrou) {
         printf("Nenhum agendamento encontrado para o CPF %s.\n", cpf);
     } else {
-        printf("\nDigite o horário que deseja cancelar: ");
+        printf("\nDigite o horário que deseja cancelar: (Ex: 8:00)");
         char horariocancel[20];
         scanf("%s", horariocancel);
 
@@ -75,6 +77,7 @@ void cancelaragenda(char *cpf) {
     salvarhorario();
 }
 
+//Consultar Agendamento
 void consultaragenda(char *cpf) {
     FILE *BD = fopen("usuario.txt", "r");
     if (BD == NULL) {
@@ -89,9 +92,10 @@ void consultaragenda(char *cpf) {
 
     while (fgets(linha, sizeof(linha), BD) != NULL) {
         if (strstr(linha, cpf) != NULL) {
+            // Exibe apenas o horário, sem mostrar CPF ou senha
             char *horario = strstr(linha, ", Horário: ");
             if (horario != NULL) {
-                printf("%s", horario + 11);
+                printf("%s", horario + 11);  // Pula o texto "CPF: " e exibe apenas o horário
                 encontrou = 1;
             }
         }
@@ -143,7 +147,7 @@ void escolherhorario(char *cpf) {
         fclose(BD);
     }
 
-    printf("Horário agendado com sucesso!\n");
+    printf("Horário agendado com sucesso!Compareça na iTec Assistência Técnica no horário agendado, para realizar o serviço solicitado.\n");
 }
 
 void escolhermodelo(int *modeloValido) {
@@ -356,4 +360,4 @@ int main(void) {
     }
 
     return 0;
-}
+} // fim
