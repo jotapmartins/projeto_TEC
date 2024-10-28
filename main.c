@@ -50,7 +50,7 @@ void cancelaragenda(char *cpf) {
     if (!encontrou) {
         printf("Nenhum agendamento encontrado para o CPF %s.\n", cpf);
     } else {
-        printf("\nDigite o horário que deseja cancelar: ");
+        printf("\nDigite o horário que deseja cancelar: (Ex: 8:00)");
         char horariocancel[20];
         scanf("%s", horariocancel);
 
@@ -147,7 +147,7 @@ void escolherhorario(char *cpf) {
         fclose(BD);
     }
 
-    printf("Horário agendado com sucesso!\n");
+    printf("Horário agendado com sucesso!Compareça na iTec Assistência Técnica no horário agendado, para realizar o serviço solicitado.\n");
 }
 
 void escolhermodelo(int *modeloValido) {
