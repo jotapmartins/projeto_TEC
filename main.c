@@ -6,7 +6,7 @@
 char horarios[maxhorario][20] = {"8:00", "10:00", "12:00", "14:00", "16:00"};
 int disponivel[maxhorario] = {1, 1, 1, 1, 1};
 
-///////////////////////////////////
+//Salvar horário
 void salvarhorario() {
     FILE *BD = fopen("horarios.txt", "w");
     if (BD != NULL) {
@@ -16,8 +16,8 @@ void salvarhorario() {
         fclose(BD);
     }
 }
-///////////////////////////////////
 
+//Cancelar agendamento
 void cancelaragenda(char *cpf) {
     FILE *BD = fopen("usuario.txt", "r");
     if (BD == NULL) {
@@ -77,6 +77,7 @@ void cancelaragenda(char *cpf) {
     salvarhorario();
 }
 
+//Consultar Agendamento
 void consultaragenda(char *cpf) {
     FILE *BD = fopen("usuario.txt", "r");
     if (BD == NULL) {
@@ -116,6 +117,7 @@ void carregarhorario() {
         fclose(BD);
     }
 }
+
 
 void escolherhorario(char *cpf) {
     int opcao;
