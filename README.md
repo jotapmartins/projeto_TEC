@@ -35,3 +35,7 @@
   <h2>Cancelar Agendamentos</h2>
   <p>--> Selecionando a opção 3 no menu "Cancelar agendamentos" você vai poder cancelar seu horario de agendamento.</p>
   <img src="captura6.png">
+
+<h2>Criadores</h2>
+<li>Lucas de Almeida Brandão - RA: 22.124.066-6</li>
+<li>João Pedro Martins - RA: 22.124.034-4</li>
